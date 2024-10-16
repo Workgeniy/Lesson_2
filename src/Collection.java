@@ -1,4 +1,6 @@
 public interface Collection {
-    public byte[] Add(byte[] data);
-    public byte[] Remove(byte[] data);
+    public void Add(String path);
+    public void Remove(int index);
+    public void Clear();
+    public void Display();
 }
