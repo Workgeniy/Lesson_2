@@ -1,7 +1,6 @@
-import org.jetbrains.annotations.NotNull;
 
 public class Student {
-        @NonNull public String name;
+        public String name;
         public int[] grades;
 
 
