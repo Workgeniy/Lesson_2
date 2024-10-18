@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 class Box { public int a; public String b; }
 
@@ -21,26 +22,28 @@ public class Main {
 //                .forEach(num -> System.out.println(num));
 
 
-        Book[] books = new Book[]{
-                new Book("Капитанская дочка", "А. С. Пушкин", "Роман"),
-                new Book("Война и мир", "Л. Н. Толстой", "Роман"),
-                new Book("Всадник без головы", "Майн Рид", "Роман"),
-                new Book("Евгений Онегин", "А. С. Пушкин", "Роман"),
-                new Book("Мертвые души", "Н. В. Гоголь", "Роман"),
-        };
+        ArrayList<Book> books = new ArrayList<Book>();
+                books.add(new Book("Капитанская дочка", "А. С. Пушкин", "Роман"));
+                books.add(new Book("Война и мир", "Л. Н. Толстой", "Роман"));
+                books.add(new Book("Всадник без головы", "Майн Рид", "Роман"));
+                books.add(new Book("Евгений Онегин", "А. С. Пушкин", "Роман"));
+                books.add(new Book("Мертвые души", "Н. В. Гоголь", "Роман"));
+
 
         try (ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream("books.txt"))) {
             stream.writeObject(books);
+            stream.flush();
+            stream.close();
             System.out.println("Успешно");
         } catch (Exception e) {
             System.out.println("Не записал в файл");
         }
 
-        ArrayList<Book> bookArray  = new ArrayList<>();
+        ArrayList<Book> bookArray  = new ArrayList<Book>();
         try {
-            File file = new File("books.txt");
-            ObjectInputStream streamIn = new ObjectInputStream(new FileInputStream(file));
-            bookArray = (ArrayList<Book>)streamIn.readObject();
+            FileInputStream file = new FileInputStream("books.txt");
+            ObjectInputStream streamIn = new ObjectInputStream(file);
+            bookArray = ((ArrayList<Book>) streamIn.readObject());
         }
         catch (Exception e) {
             System.out.println("Не нашел файл");
